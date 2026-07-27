@@ -17,7 +17,7 @@ jobs:
         with:
           node-version: 22
       - name: Install dependencies
-        run: npm ci
+        run: Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass npm ci
       - name: Run ESlint
         run: npm run lint
       - name: Run prettier check
