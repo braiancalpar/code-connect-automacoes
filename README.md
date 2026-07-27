@@ -1,3 +1,9 @@
+<!-- Badges de status (GitHub Actions) -->
+
+[![Lint & Format](https://github.com/braiancalpar/code-connect-automacoes/actions/workflows/lint-and-format.yaml/badge.svg?branch=main)](https://github.com/braiancalpar/code-connect-automacoes/actions/workflows/lint-and-format.yaml)
+[![Unit Tests](https://github.com/braiancalpar/code-connect-automacoes/actions/workflows/unit-tests.yaml/badge.svg?branch=main)](https://github.com/braiancalpar/code-connect-automacoes/actions/workflows/unit-tests.yaml)
+[![E2E Tests](https://github.com/braiancalpar/code-connect-automacoes/actions/workflows/e2e-tests.yaml/badge.svg?branch=main)](https://github.com/<OWNER>/<REPO>/actions/workflows/e2e-tests.yaml)
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
