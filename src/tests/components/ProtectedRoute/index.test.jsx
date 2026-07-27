@@ -1,94 +1,93 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen } from '@testing-library/react'
-import { ProtectedRoute } from '../../../components/ProtectedRoute'
-import { renderWithRouter, createUseAuthMock } from '../../utils'
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { render, screen } from "@testing-library/react";
+import { ProtectedRoute } from "../../../components/ProtectedRoute";
+import { renderWithRouter, createUseAuthMock } from "../../utils";
 
 // Mock do useAuth
-vi.mock('../../../hooks/useAuth', () => ({
+vi.mock("../../../hooks/useAuth", () => ({
   useAuth: vi.fn(),
-}))
+}));
 
 // Mock do useNavigate
-const mockNavigate = vi.fn()
-vi.mock('react-router', async () => {
-  const actual = await vi.importActual('react-router')
+const mockNavigate = vi.fn();
+vi.mock("react-router", async () => {
+  const actual = await vi.importActual("react-router");
   return {
     ...actual,
     useNavigate: () => mockNavigate,
-  }
-})
+  };
+});
 
 // Mock do Spinner
-vi.mock('../../../components/Spinner', () => ({
+vi.mock("../../../components/Spinner", () => ({
   Spinner: () => <div data-testid="spinner">Loading...</div>,
-}))
+}));
 
-import { useAuth } from '../../../hooks/useAuth'
+import { useAuth } from "../../../hooks/useAuth";
 
-describe('ProtectedRoute', () => {
+describe("ProtectedRoute", () => {
   beforeEach(() => {
-    vi.clearAllMocks()
-  })
+    vi.clearAllMocks();
+  });
 
-  it('deve renderizar spinner quando isLoading é true', () => {
+  it("deve renderizar spinner quando isLoading é true", () => {
     vi.mocked(useAuth).mockImplementation(
-      createUseAuthMock({ isLoading: true, isAuthenticated: false })
-    )
+      createUseAuthMock({ isLoading: true, isAuthenticated: false }),
+    );
 
     renderWithRouter(
       <ProtectedRoute>
         <div>Protected Content</div>
-      </ProtectedRoute>
-    )
+      </ProtectedRoute>,
+    );
 
-    expect(screen.getByTestId('spinner')).toBeInTheDocument()
-    expect(screen.queryByText('Protected Content')).not.toBeInTheDocument()
-  })
+    expect(screen.getByTestId("spinner")).toBeInTheDocument();
+    expect(screen.queryByText("Protected Content")).not.toBeInTheDocument();
+  });
 
-  it('deve redirecionar para /auth/login quando não autenticado', () => {
+  it("deve redirecionar para /auth/login quando não autenticado", () => {
     vi.mocked(useAuth).mockImplementation(
-      createUseAuthMock({ isLoading: false, isAuthenticated: false })
-    )
+      createUseAuthMock({ isLoading: false, isAuthenticated: false }),
+    );
 
     renderWithRouter(
       <ProtectedRoute>
         <div>Protected Content</div>
-      </ProtectedRoute>
-    )
+      </ProtectedRoute>,
+    );
 
-    expect(mockNavigate).toHaveBeenCalledWith('/auth/login')
-    expect(screen.queryByText('Protected Content')).not.toBeInTheDocument()
-  })
+    expect(mockNavigate).toHaveBeenCalledWith("/auth/login");
+    expect(screen.queryByText("Protected Content")).not.toBeInTheDocument();
+  });
 
-  it('deve renderizar children quando autenticado', () => {
+  it("deve renderizar children quando autenticado", () => {
     vi.mocked(useAuth).mockImplementation(
-      createUseAuthMock({ isLoading: false, isAuthenticated: true })
-    )
+      createUseAuthMock({ isLoading: false, isAuthenticated: true }),
+    );
 
     renderWithRouter(
       <ProtectedRoute>
         <div>Protected Content</div>
-      </ProtectedRoute>
-    )
+      </ProtectedRoute>,
+    );
 
-    expect(screen.getByText('Protected Content')).toBeInTheDocument()
-    expect(screen.queryByTestId('spinner')).not.toBeInTheDocument()
-    expect(mockNavigate).not.toHaveBeenCalled()
-  })
+    expect(screen.getByText("Protected Content")).toBeInTheDocument();
+    expect(screen.queryByTestId("spinner")).not.toBeInTheDocument();
+    expect(mockNavigate).not.toHaveBeenCalled();
+  });
 
-  it('não deve renderizar nada quando não autenticado e não está carregando', () => {
+  it("não deve renderizar nada quando não autenticado e não está carregando", () => {
     vi.mocked(useAuth).mockImplementation(
-      createUseAuthMock({ isLoading: false, isAuthenticated: false })
-    )
+      createUseAuthMock({ isLoading: false, isAuthenticated: false }),
+    );
 
     const { container } = renderWithRouter(
       <ProtectedRoute>
         <div>Protected Content</div>
-      </ProtectedRoute>
-    )
+      </ProtectedRoute>,
+    );
 
-    expect(container.firstChild).toBeNull()
-    expect(mockNavigate).toHaveBeenCalledWith('/auth/login')
-  })
-})
-
+    expect(container.firstChild).toBeNull();
+    expect(mockNavigate).toHaveBeenCalledWith("/auth/login");
+  });
+});
