@@ -17,7 +17,7 @@ jobs:
         with:
           node-version: 22
       - name: Install dependencies
-        run: Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass npm ci
+        run: npm ci
       - name: Run e2e tests
         run: npm run test:e2e:ci
       - name: Upload screenshots

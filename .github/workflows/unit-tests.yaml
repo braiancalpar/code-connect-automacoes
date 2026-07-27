@@ -17,6 +17,6 @@ jobs:
         with:
           node-version: 22
       - name: Install dependencies
-        run: Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass npm ci
+        run: npm ci
       - name: Run unit tests
         run: npm run test:coverage
